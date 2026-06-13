@@ -26,8 +26,7 @@
 
   html {
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 #f1f5f9;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
   }
 
   body {
@@ -37,19 +36,11 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #f8fafc;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
+    display: none; /* Hide scrollbar in Chrome/Safari/Opera */
   }
 
   ::selection {

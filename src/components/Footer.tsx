@@ -3,15 +3,6 @@
 import { motion } from "framer-motion";
 
 const footerLinks = {
-  Services: [
-    "Website Development",
-    "Mobile Apps",
-    "SaaS Platforms",
-    "UI/UX Design",
-    "E-commerce",
-    "Custom Software",
-  ],
-  Company: ["About Us", "Our Work", "Process", "Careers", "Blog"],
   Contact: [
     "hello@exofttechnologies.com",
     "+1 (555) 123-4567",
@@ -56,37 +47,42 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative pt-20 pb-8 bg-gray-50">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+    <footer className="relative pt-20 pb-8 bg-black">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <motion.a
-              href="#"
-              className="flex items-center gap-2 mb-6 group"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#0f172a] flex items-center justify-center text-white font-bold text-lg">
-                E
-              </div>
-              <span className="text-[#0f172a] font-bold text-xl tracking-tight">
-                EXOFT
-                <span className="text-[#2563eb]">TECHNOLOGIES</span>
-              </span>
-            </motion.a>
-            <p className="text-sm text-gray-500 leading-relaxed mb-6 max-w-sm">
-              Building premium digital products that help businesses grow.
-              Websites, apps, SaaS platforms, and custom software solutions.
-            </p>
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-12 mb-16">
+          {/* Contact */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">
+              Contact
+            </h4>
+            <ul className="space-y-3">
+              {footerLinks.Contact.map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="text-sm text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Follow Us */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">
+              Follow Us
+            </h4>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
                   href="#"
                   whileHover={{ scale: 1.1, y: -2 }}
-                  className="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0f172a] hover:border-gray-300 hover:shadow-sm transition-all duration-300"
+                  className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition-all duration-300"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -94,39 +90,18 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
-          {/* Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-sm font-semibold text-[#0f172a] mb-4 uppercase tracking-wider">
-                {title}
-              </h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-sm text-gray-500 hover:text-[#2563eb] transition-colors duration-300"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-gray-200 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-400">
+        <div className="border-t border-white/[0.08] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-500">
             © 2026 Exofttechnologies. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+            <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+            <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
               Terms of Service
             </a>
           </div>

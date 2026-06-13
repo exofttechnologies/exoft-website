@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import aboutBg from "@/assets/about.png";
 import { motion } from "framer-motion";
 
 export default function AboutUs() {
@@ -23,16 +21,6 @@ export default function AboutUs() {
 
       {/* ── Main Content Area ── */}
       <div className="about-main">
-        {/* Background image — the red arrow */}
-        <div className="about-bg-image">
-          <Image
-            src={aboutBg}
-            alt="3D red arrow pointing upward"
-            fill
-            quality={90}
-            className="about-bg-img"
-          />
-        </div>
 
         {/* Text overlay */}
         <div className="about-content">
@@ -66,10 +54,10 @@ export default function AboutUs() {
       <div
         className="about-bottom-bar"
         onClick={() => {
-          document.getElementById("process")?.scrollIntoView({ behavior: "smooth" });
+          document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
         }}
       >
-        <span className="about-bottom-text">THE PROCESS SO FAR...</span>
+        <span className="about-bottom-text">EXPLORE OUR SERVICES...</span>
         <span className="about-bottom-arrow">→</span>
       </div>
 
@@ -113,16 +101,6 @@ export default function AboutUs() {
           overflow: hidden;
         }
 
-        .about-bg-image {
-          position: absolute;
-          top: -5%;
-          right: -5%;
-          width: 55%;
-          height: 110%;
-          z-index: 1;
-          pointer-events: none;
-          opacity: 0.85;
-        }
 
         .about-content {
           position: relative;
@@ -262,13 +240,6 @@ export default function AboutUs() {
         }
       `}</style>
 
-      {/* Global styles for next/image */}
-      <style jsx global>{`
-        .about-bg-img {
-          object-fit: contain;
-          object-position: right center;
-        }
-      `}</style>
     </section>
   );
 }
