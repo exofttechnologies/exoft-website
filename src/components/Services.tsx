@@ -216,12 +216,20 @@ export default function Services() {
       }
 
       ctx.restore();
-      rafRef.current = requestAnimationFrame(draw);
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+      if (!isMobile) {
+        rafRef.current = requestAnimationFrame(draw);
+      }
     };
 
     window.addEventListener("resize", resize);
     resize();
-    rafRef.current = requestAnimationFrame(draw);
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (isMobile) {
+      draw(0);
+    } else {
+      rafRef.current = requestAnimationFrame(draw);
+    }
 
     return () => {
       window.removeEventListener("resize", resize);
