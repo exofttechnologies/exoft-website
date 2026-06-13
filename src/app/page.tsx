@@ -10,6 +10,7 @@ import Process from "@/components/Process";
 import ProjectButton from "@/components/ProjectButton";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import { LiquidLens } from "@/components/LiquidLens";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,7 @@ export default function Home() {
       <ProjectButton />
       <CTA />
       <Footer />
+      <LiquidLens />
     </main>
   );
 }
