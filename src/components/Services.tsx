@@ -249,6 +249,9 @@ export default function Services() {
       {/* ── Animated Stars Canvas ── */}
       <canvas ref={canvasRef} className="svc-stars-canvas" />
 
+      {/* ── Top Shadow Transition ── */}
+      <div className="svc-top-shadow" />
+
       <div className="svc-container">
         {/* ── Header ── */}
         <div className="svc-header">
@@ -379,6 +382,24 @@ export default function Services() {
           pointer-events: none;
         }
 
+        /* ── Top Shadow Transition ── */
+        .svc-top-shadow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 140px;
+          z-index: 2;
+          pointer-events: none;
+          background: linear-gradient(
+            to bottom,
+            #0a0a0a 0%,
+            rgba(10, 10, 10, 0.8) 25%,
+            rgba(6, 6, 6, 0.4) 65%,
+            transparent 100%
+          );
+        }
+
         .svc-container {
           position: relative;
           z-index: 2;
@@ -399,7 +420,7 @@ export default function Services() {
 
         .svc-heading {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(24px, 3.2vw, 38px);
+          font-size: clamp(18px, 2.2vw, 26px);
           font-weight: 700;
           color: #e5e5e5; /* Off-white color */
           margin: 0;
@@ -540,7 +561,7 @@ export default function Services() {
             margin-bottom: 40px;
           }
           .svc-heading {
-            font-size: 32px;
+            font-size: 22px;
           }
           .svc-card {
             min-height: 280px;

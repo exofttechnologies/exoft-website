@@ -334,8 +334,12 @@ export default function Hero() {
           <span className="hero-title-bold">BUILT FOR</span>
           <br className="hero-mobile-br" />
           {" "}
-          <span className="hero-title-outline">WHATS NEXT</span>
+          <span className="hero-title-outline">WHATS NEXT!</span>
         </h1>
+      </div>
+
+      {/* ── Subtitle Layer — Left Bottom ── */}
+      <div className="hero-subtitle-container">
         <p className="hero-subtitle">
           Engineering premium software, mobile apps, and custom web products for growing businesses.
         </p>
@@ -406,7 +410,7 @@ export default function Hero() {
         /* ── Text Layer (z-index BELOW mountain) ── */
         .hero-text-container {
           position: absolute;
-          top: 34%;
+          top: 25%;
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 5;
@@ -426,7 +430,8 @@ export default function Hero() {
         }
 
         .hero-title-bold {
-          font-weight: 900;
+          font-family: 'Neue Montreal', sans-serif;
+          font-weight: bold;
           color: #ffffff;
           text-shadow:
             0 0 30px rgba(255, 255, 255, 0.08),
@@ -441,13 +446,21 @@ export default function Hero() {
           text-shadow: none;
         }
 
+        .hero-subtitle-container {
+          position: absolute;
+          bottom: 120px;
+          left: 48px;
+          z-index: 25;
+          max-width: 400px;
+          text-align: left;
+        }
+
         .hero-subtitle {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Outfit', sans-serif;
           font-size: clamp(14px, 1.8vw, 18px);
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.65);
-          max-width: 580px;
-          margin: 18px auto 0;
+          font-weight: 300;
+          color: #ffffff;
+          margin: 0;
           line-height: 1.6;
           letter-spacing: 0.02em;
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -604,7 +617,7 @@ export default function Hero() {
         /* ── Responsive ── */
         @media (max-width: 1024px) {
           .hero-text-container {
-            top: 30%;
+            top: 22%;
           }
           .hero-mountain-wrapper {
             height: 60%;
@@ -616,7 +629,7 @@ export default function Hero() {
             min-height: 550px;
           }
           .hero-text-container {
-            top: 28%;
+            top: 35%;
             text-align: center;
           }
           .hero-title {
@@ -627,9 +640,12 @@ export default function Hero() {
             -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
           }
           .hero-subtitle {
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: left;
+          }
+          .hero-subtitle-container {
+            bottom: 100px;
+            left: 24px;
+            max-width: 320px;
           }
           .hero-mobile-br {
             display: block;
@@ -654,7 +670,7 @@ export default function Hero() {
             min-height: 500px;
           }
           .hero-text-container {
-            top: 25%;
+            top: 35%;
             padding: 0 16px;
           }
           .hero-title {
@@ -665,6 +681,11 @@ export default function Hero() {
           }
           .hero-mountain-wrapper {
             height: 50%;
+          }
+          .hero-subtitle-container {
+            bottom: 80px;
+            left: 16px;
+            max-width: 280px;
           }
           .hero-scroll-indicator {
             bottom: 18px;

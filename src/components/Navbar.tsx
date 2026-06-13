@@ -50,9 +50,9 @@ export default function Navbar() {
           <span>x</span>
           <span
             style={{
-              color: "#a78bfa",
+              color: "#ff3b30",
               textShadow:
-                "0 0 8px rgba(139,92,246,0.7), 0 0 20px rgba(139,92,246,0.4)",
+                "0 0 8px rgba(255, 59, 48, 0.7), 0 0 20px rgba(255, 59, 48, 0.4)",
             }}
           >
             o
@@ -145,19 +145,7 @@ export default function Navbar() {
             e.currentTarget.style.boxShadow = "none";
           }}
         >
-          {/* Purple accent dot on top-right */}
-          <span
-            style={{
-              position: "absolute",
-              top: "6px",
-              right: "8px",
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: "#7c3aed",
-              boxShadow: "0 0 6px rgba(124,58,237,0.6)",
-            }}
-          />
+          {/* Purple accent dot removed */}
           <span
             style={{
               width: "18px",

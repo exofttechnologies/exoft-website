@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import AboutUs from "@/components/AboutUs";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
 import ProjectButton from "@/components/ProjectButton";
@@ -26,6 +27,7 @@ export default function Home() {
     <main className="relative">
       <Navbar />
       <Hero />
+      <AboutUs />
       <Services />
       <Process />
       <ProjectButton />
