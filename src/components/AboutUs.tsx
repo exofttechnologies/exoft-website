@@ -132,7 +132,7 @@ export default function AboutUs() {
 
         .about-heading {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(20px, 2.8vw, 34px);
+          font-size: clamp(16px, 2vw, 24px);
           font-weight: 800;
           line-height: 1.35;
           letter-spacing: 0.02em;
@@ -233,7 +233,7 @@ export default function AboutUs() {
             opacity: 0.45;
           }
           .about-heading {
-            font-size: clamp(16px, 4.5vw, 24px);
+            font-size: clamp(14px, 4vw, 20px);
           }
           .about-description br {
             display: none;
@@ -254,7 +254,7 @@ export default function AboutUs() {
             opacity: 0.35;
           }
           .about-heading {
-            font-size: clamp(15px, 5vw, 20px);
+            font-size: clamp(13px, 4.5vw, 17px);
           }
           .about-bottom-bar {
             padding: 18px 16px;

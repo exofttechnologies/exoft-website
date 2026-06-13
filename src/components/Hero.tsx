@@ -4,50 +4,11 @@ import { useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import heroMountain from "@/assets/hero mountain new.png";
 
-/* ── Interfaces ── */
-interface Star {
-  x: number;
-  y: number;
-  r: number;
-  baseAlpha: number;
-  twinkleSpeed: number;
-  twinkleOffset: number;
-}
-
-interface Nebula {
-  x: number;
-  y: number;
-  rx: number;
-  ry: number;
-  r: number;
-  g: number;
-  b: number;
-  alpha: number;
-  driftSpeedX: number;
-  driftSpeedY: number;
-  pulseSpeed: number;
-  pulseOffset: number;
-  rotation: number;
-  rotationSpeed: number;
-}
-
-interface ShootingStar {
-  x: number;
-  y: number;
-  len: number;
-  speed: number;
-  angle: number;
-  alpha: number;
-  life: number;
-  maxLife: number;
-}
-
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef = useRef<number>(0);
 
-  /* ── Animated Sky Canvas ── */
+  /* ── Grid Sky Canvas ── */
   const initCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -55,11 +16,107 @@ export default function Hero() {
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    let stars: Star[] = [];
-    let nebulae: Nebula[] = [];
-    let shootingStars: ShootingStar[] = [];
     let w = 0;
     let h = 0;
+    const gridSize = 80;
+
+    interface MovingPoint {
+      x: number;
+      y: number;
+      targetX: number;
+      targetY: number;
+      speed: number;
+      opacity: number;
+      size: number;
+    }
+
+    let pts: MovingPoint[] = [];
+    let animationFrameId = 0;
+
+    const tick = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.scale(dpr, dpr);
+
+      /* ── Pure black background (#050505) ── */
+      ctx.fillStyle = "#050505";
+      ctx.fillRect(0, 0, w, h);
+
+      /* ── Very thin grid lines (10% opacity) ── */
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.10)";
+      ctx.lineWidth = 0.5;
+
+      // Vertical grid lines
+      for (let x = 0; x < w; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+
+      // Horizontal grid lines
+      for (let y = 0; y < h; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      /* ── Animate points moving along grid lines ── */
+      for (const pt of pts) {
+        const dx = pt.targetX - pt.x;
+        const dy = pt.targetY - pt.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < pt.speed) {
+          // Snap to target intersection
+          pt.x = pt.targetX;
+          pt.y = pt.targetY;
+
+          // Pick adjacent vertical grid coordinate: Down, Up
+          const directions = [
+            { dx: 0, dy: gridSize },
+            { dx: 0, dy: -gridSize },
+          ];
+
+          // Filter directions that remain inside screen boundaries
+          const valid = directions.filter((d) => {
+            const nextX = pt.x + d.dx;
+            const nextY = pt.y + d.dy;
+            return nextX >= 0 && nextX <= w && nextY >= 0 && nextY <= h;
+          });
+
+          if (valid.length > 0) {
+            const chosen = valid[Math.floor(Math.random() * valid.length)];
+            pt.targetX = pt.x + chosen.dx;
+            pt.targetY = pt.y + chosen.dy;
+          }
+        } else {
+          // Move step towards target
+          pt.x += (dx / dist) * pt.speed;
+          pt.y += (dy / dist) * pt.speed;
+        }
+
+        // Draw glowing point
+        const radGrad = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 10);
+        radGrad.addColorStop(0, `rgba(250, 90, 56, ${pt.opacity})`);
+        radGrad.addColorStop(0.3, `rgba(250, 90, 56, ${pt.opacity * 0.4})`);
+        radGrad.addColorStop(1, "rgba(250, 90, 56, 0)");
+        ctx.fillStyle = radGrad;
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // White core dot
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+      animationFrameId = requestAnimationFrame(tick);
+    };
 
     const resize = () => {
       const parent = canvas.parentElement!;
@@ -70,228 +127,31 @@ export default function Hero() {
       canvas.style.width = w + "px";
       canvas.style.height = h + "px";
 
-      /* Generate stars */
-      const starCount = Math.floor((w * h) / 800);
-      stars = [];
-      for (let i = 0; i < starCount; i++) {
-        stars.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: Math.random() * 1.2 + 0.15,
-          baseAlpha: Math.random() * 0.6 + 0.15,
-          twinkleSpeed: Math.random() * 0.003 + 0.0008,
-          twinkleOffset: Math.random() * Math.PI * 2,
+      // Re-populate points on resize
+      pts = [];
+      const numPoints = Math.min(10, Math.max(4, Math.floor(w / 180)));
+      for (let i = 0; i < numPoints; i++) {
+        const gridX = Math.floor(Math.random() * Math.floor(w / gridSize)) * gridSize;
+        const gridY = Math.floor(Math.random() * Math.floor(h / gridSize)) * gridSize;
+        pts.push({
+          x: gridX,
+          y: gridY,
+          targetX: gridX,
+          targetY: gridY,
+          speed: Math.random() * 0.8 + 0.6,
+          opacity: Math.random() * 0.3 + 0.6,
+          size: Math.random() * 0.8 + 1.2,
         });
-      }
-
-      /* Generate nebula clouds */
-      nebulae = [];
-      const nebulaCount = 6;
-      const nebulaColors = [
-        { r: 80, g: 20, b: 10 },    // deep red-brown
-        { r: 120, g: 40, b: 10 },   // warm orange-brown
-        { r: 50, g: 15, b: 30 },    // dark maroon
-        { r: 30, g: 10, b: 5 },     // almost black warm
-        { r: 90, g: 30, b: 5 },     // rust
-        { r: 40, g: 15, b: 20 },    // dark wine
-      ];
-      for (let i = 0; i < nebulaCount; i++) {
-        const color = nebulaColors[i % nebulaColors.length];
-        nebulae.push({
-          x: Math.random() * w,
-          y: Math.random() * h * 0.7,
-          rx: Math.random() * 300 + 200,
-          ry: Math.random() * 200 + 120,
-          ...color,
-          alpha: Math.random() * 0.06 + 0.02,
-          driftSpeedX: (Math.random() - 0.5) * 0.08,
-          driftSpeedY: (Math.random() - 0.5) * 0.03,
-          pulseSpeed: Math.random() * 0.0008 + 0.0003,
-          pulseOffset: Math.random() * Math.PI * 2,
-          rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.00005,
-        });
-      }
-    };
-
-    const spawnShootingStar = () => {
-      if (shootingStars.length > 2) return;
-      shootingStars.push({
-        x: Math.random() * w * 0.8,
-        y: Math.random() * h * 0.3,
-        len: Math.random() * 100 + 60,
-        speed: Math.random() * 3 + 2,
-        angle: Math.PI / 6 + Math.random() * 0.3,
-        alpha: 0,
-        life: 0,
-        maxLife: Math.random() * 100 + 60,
-      });
-    };
-
-    const draw = (time: number) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.scale(dpr, dpr);
-
-      /* ── Deep space gradient background ── */
-      const bgGrad = ctx.createRadialGradient(
-        w * 0.7, h * 0.2, 0,
-        w * 0.5, h * 0.5, w * 0.9
-      );
-      bgGrad.addColorStop(0, "#0d0805");
-      bgGrad.addColorStop(0.3, "#080404");
-      bgGrad.addColorStop(0.7, "#050303");
-      bgGrad.addColorStop(1, "#030202");
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, w, h);
-
-      /* ── Nebula clouds ── */
-      for (const neb of nebulae) {
-        const driftX = Math.sin(time * 0.0001 + neb.pulseOffset) * 30;
-        const driftY = Math.cos(time * 0.00007 + neb.pulseOffset) * 15;
-        const pulse = Math.sin(time * neb.pulseSpeed + neb.pulseOffset) * 0.3 + 0.7;
-        const cx = neb.x + neb.driftSpeedX * time * 0.01 + driftX;
-        const cy = neb.y + neb.driftSpeedY * time * 0.01 + driftY;
-
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(neb.rotation + time * neb.rotationSpeed);
-
-        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, neb.rx);
-        const a = neb.alpha * pulse;
-        grad.addColorStop(0, `rgba(${neb.r}, ${neb.g}, ${neb.b}, ${a})`);
-        grad.addColorStop(0.4, `rgba(${neb.r}, ${neb.g}, ${neb.b}, ${a * 0.6})`);
-        grad.addColorStop(1, `rgba(${neb.r}, ${neb.g}, ${neb.b}, 0)`);
-
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, neb.rx, neb.ry, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      /* ── Warm ambient glow (upper right area to match the sky mood) ── */
-      const ambGrad = ctx.createRadialGradient(
-        w * 0.75, h * 0.15, 0,
-        w * 0.75, h * 0.15, w * 0.5
-      );
-      const ambPulse = Math.sin(time * 0.0003) * 0.008 + 0.025;
-      ambGrad.addColorStop(0, `rgba(100, 40, 10, ${ambPulse})`);
-      ambGrad.addColorStop(0.5, `rgba(60, 20, 5, ${ambPulse * 0.5})`);
-      ambGrad.addColorStop(1, "rgba(30, 10, 3, 0)");
-      ctx.fillStyle = ambGrad;
-      ctx.fillRect(0, 0, w, h);
-
-      /* ── Stars with twinkle ── */
-      for (const star of stars) {
-        const twinkle =
-          Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.4 + 0.6;
-        const alpha = star.baseAlpha * twinkle;
-
-        /* Star glow */
-        if (star.r > 0.8) {
-          const glowGrad = ctx.createRadialGradient(
-            star.x, star.y, 0,
-            star.x, star.y, star.r * 4
-          );
-          glowGrad.addColorStop(0, `rgba(255, 230, 210, ${alpha * 0.3})`);
-          glowGrad.addColorStop(1, "rgba(255, 230, 210, 0)");
-          ctx.fillStyle = glowGrad;
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.r * 4, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        /* Star core */
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 245, 235, ${alpha})`;
-        ctx.fill();
-      }
-
-      /* ── Shooting stars ── */
-      if (Math.random() < 0.003) spawnShootingStar();
-
-      for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const ss = shootingStars[i];
-        ss.life++;
-        ss.x += Math.cos(ss.angle) * ss.speed;
-        ss.y += Math.sin(ss.angle) * ss.speed;
-
-        /* Fade in then out */
-        const lifeRatio = ss.life / ss.maxLife;
-        if (lifeRatio < 0.2) {
-          ss.alpha = lifeRatio / 0.2;
-        } else if (lifeRatio > 0.7) {
-          ss.alpha = (1 - lifeRatio) / 0.3;
-        } else {
-          ss.alpha = 1;
-        }
-
-        if (ss.life >= ss.maxLife || ss.x > w + 100 || ss.y > h + 100) {
-          shootingStars.splice(i, 1);
-          continue;
-        }
-
-        const tailX = ss.x - Math.cos(ss.angle) * ss.len;
-        const tailY = ss.y - Math.sin(ss.angle) * ss.len;
-
-        const grad = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
-        grad.addColorStop(0, `rgba(255, 200, 150, 0)`);
-        grad.addColorStop(0.7, `rgba(255, 220, 180, ${ss.alpha * 0.3})`);
-        grad.addColorStop(1, `rgba(255, 255, 255, ${ss.alpha * 0.8})`);
-
-        ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(ss.x, ss.y);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        /* Head glow */
-        const headGrad = ctx.createRadialGradient(
-          ss.x, ss.y, 0, ss.x, ss.y, 4
-        );
-        headGrad.addColorStop(0, `rgba(255, 255, 255, ${ss.alpha * 0.6})`);
-        headGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
-        ctx.fillStyle = headGrad;
-        ctx.beginPath();
-        ctx.arc(ss.x, ss.y, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      /* ── Subtle floating dust particles ── */
-      for (let i = 0; i < 15; i++) {
-        const t = time * 0.00004 + i * 137.5;
-        const dx = (Math.sin(t * 2.3 + i) * 0.5 + 0.5) * w;
-        const dy = (Math.cos(t * 1.7 + i * 0.7) * 0.5 + 0.5) * h * 0.6;
-        const dustAlpha = Math.sin(t * 3 + i) * 0.04 + 0.05;
-        const dustR = Math.random() * 1 + 0.3;
-        ctx.beginPath();
-        ctx.arc(dx, dy, dustR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 180, 120, ${Math.max(0, dustAlpha)})`;
-        ctx.fill();
-      }
-
-      ctx.restore();
-      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-      if (!isMobile) {
-        rafRef.current = requestAnimationFrame(draw);
       }
     };
 
     resize();
     window.addEventListener("resize", resize);
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    if (isMobile) {
-      draw(0);
-    } else {
-      rafRef.current = requestAnimationFrame(draw);
-    }
+    tick();
 
     return () => {
       window.removeEventListener("resize", resize);
-      cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -325,8 +185,11 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero-section" ref={sectionRef}>
-      {/* ── Animated Sky Canvas ── */}
+      {/* ── Grid Sky Canvas ── */}
       <canvas ref={canvasRef} className="hero-sky-canvas" />
+
+      {/* ── Noise Overlay ── */}
+      <div className="hero-noise-overlay" />
 
       {/* ── Main Text — sits BEHIND the mountain ── */}
       <div className="hero-text-container">
@@ -399,12 +262,22 @@ export default function Hero() {
           justify-content: center;
         }
 
-        /* ── Animated Sky Canvas ── */
+        /* ── Grid Sky Canvas ── */
         .hero-sky-canvas {
           position: absolute;
           inset: 0;
           z-index: 1;
           pointer-events: none;
+        }
+
+        /* ── Noise Overlay ── */
+        .hero-noise-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 12;
+          pointer-events: none;
+          opacity: 0.035;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         /* ── Text Layer (z-index BELOW mountain) ── */

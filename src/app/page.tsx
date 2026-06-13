@@ -12,6 +12,7 @@ import ProjectButton from "@/components/ProjectButton";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import { LiquidLens } from "@/components/LiquidLens";
+import Preloader from "@/components/Preloader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ export default function Home() {
 
   return (
     <main className="relative">
+      <Preloader />
       <Navbar />
       <Hero />
       <AboutUs />
