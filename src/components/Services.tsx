@@ -252,6 +252,11 @@ export default function Services() {
       {/* ── Top Shadow Transition ── */}
       <div className="svc-top-shadow" />
 
+      {/* ── Background Grid & Glow Animations ── */}
+      <div className="svc-grid-bg" />
+      <div className="svc-glow-orb-1" />
+      <div className="svc-glow-orb-2" />
+
       <div className="svc-container">
         {/* ── Header ── */}
         <div className="svc-header">
@@ -366,12 +371,111 @@ export default function Services() {
       />
 
       <style jsx>{`
-        /* ── Section ── */
+         /* ── Section ── */
         .svc-section {
           position: relative;
           background: #060606;
           padding: 100px 0 120px;
           overflow: hidden;
+        }
+
+        /* ── Background Grid & Glow ── */
+        .svc-grid-bg {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+          background-size: 60px 60px;
+          z-index: 1;
+          pointer-events: none;
+          animation: grid-shift 35s linear infinite;
+          
+          /* Mask to fade out grid at the edges */
+          mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
+          -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
+        }
+
+        /* Laser Sweep Line */
+        .svc-grid-bg::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            transparent,
+            rgba(239, 68, 68, 0.01) 45%,
+            rgba(239, 68, 68, 0.05) 50%,
+            rgba(239, 68, 68, 0.01) 55%,
+            transparent
+          );
+          height: 100%;
+          width: 100%;
+          animation: grid-scan 15s infinite linear;
+        }
+
+        .svc-glow-orb-1 {
+          position: absolute;
+          top: 20%;
+          left: 15%;
+          width: 450px;
+          height: 450px;
+          background: radial-gradient(circle, rgba(239, 68, 68, 0.02) 0%, transparent 70%);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 0;
+          filter: blur(40px);
+          animation: float-glow-1 20s infinite ease-in-out;
+        }
+
+        .svc-glow-orb-2 {
+          position: absolute;
+          bottom: 10%;
+          right: 15%;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(239, 68, 68, 0.01) 0%, transparent 70%);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 0;
+          filter: blur(40px);
+          animation: float-glow-2 18s infinite ease-in-out;
+        }
+
+        @keyframes grid-shift {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 60px 60px;
+          }
+        }
+
+        @keyframes grid-scan {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100%);
+          }
+        }
+
+        @keyframes float-glow-1 {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+          }
+          50% {
+            transform: translate(40px, 20px) scale(1.05);
+          }
+        }
+
+        @keyframes float-glow-2 {
+          0%, 100% {
+            transform: translate(0, 0) scale(1.05);
+          }
+          50% {
+            transform: translate(-30px, -15px) scale(0.98);
+          }
         }
 
         /* ── Animated Stars Canvas ── */

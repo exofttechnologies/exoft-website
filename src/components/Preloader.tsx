@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import loaderImg from "@/assets/loader.png";
 
-export default function Preloader() {
+export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(true);
@@ -18,6 +18,7 @@ export default function Preloader() {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        if (onComplete) onComplete();
         // Fade out and scale up the preloader container
         gsap.to(containerRef.current, {
           opacity: 0,
