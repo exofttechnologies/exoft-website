@@ -11,7 +11,6 @@ import Partners from "@/components/Partners";
 import Projects from "@/components/Projects";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
-import { LiquidLens } from "@/components/LiquidLens";
 import Preloader from "@/components/Preloader";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,7 +37,6 @@ export default function Home() {
         <Projects />
         <CTA />
         <Footer />
-        <LiquidLens />
       </div>
     </main>
   );

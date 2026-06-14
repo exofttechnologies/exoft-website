@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "HOME", href: "#hero" },
   { name: "SERVICE", href: "#services" },
+  { name: "PROJECTS", href: "#projects" },
   { name: "CONTACT", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   return (
     <>
@@ -32,7 +36,7 @@ export default function Navbar() {
       >
         {/* Logo — lowercase "exoft" with purple glowing 'o' */}
         <a
-          href="#"
+          href={isHome ? "#" : "/"}
           style={{
             display: "flex",
             alignItems: "center",
@@ -87,7 +91,7 @@ export default function Navbar() {
                 </span>
               )}
               <a
-                href={link.href}
+                href={isHome ? link.href : `/${link.href}`}
                 style={{
                   color: "rgba(255,255,255,0.75)",
                   fontFamily: "'Orbitron', sans-serif",
@@ -201,7 +205,7 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <a
               key={link.name}
-              href={link.href}
+              href={isHome ? link.href : `/${link.href}`}
               onClick={() => setMobileOpen(false)}
               style={{
                 color: "#ffffff",

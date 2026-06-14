@@ -5,9 +5,46 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import arrowImg from "@/assets/shapes/arrow.png";
 
-import tummyProjectImg from "@/assets/project/tummy_and_me_project.png";
 import tummyLogo from "@/assets/company logos/tummy_and_me_logo.png";
+import tummyProjectImg from "@/assets/project/tummy_and_me_project.png";
+
+import plankraftLogo from "@/assets/company logos/plankraft.png";
+import plankraftProjectImg from "@/assets/project/plankraft_project.png";
+
+import henzaLogo from "@/assets/company logos/henzaevents.png";
+import henzaProjectImg from "@/assets/project/henzaevents_project.png";
+
+const projects = [
+  {
+    name: "Tummy & Me",
+    titleSolid: "Tummy",
+    titleOutline: "& Me",
+    logo: tummyLogo,
+    image: tummyProjectImg,
+    description: "Tummy & Me is a Kerala-based fast-food brand known for its signature crispy fried chicken wraps, shawarmas, and loaded snack boxes. Built around the tagline \"Eat. Sleep. Repeat.\", the brand focuses on delivering a fun, family-friendly food experience with bold flavors, premium ingredients, fresh bread, and house-made sauces.",
+    link: "https://tummyandme.com/"
+  },
+  {
+    name: "Plankraft",
+    titleSolid: "Plan",
+    titleOutline: "kraft",
+    logo: plankraftLogo,
+    image: plankraftProjectImg,
+    description: "At Plankraft Engineers & Builders, we provide comprehensive construction and engineering services. From innovative designs to flawless execution, our team ensures the success of your residential, commercial, and infrastructure projects.",
+    link: "https://plankraftarchitectures.com/"
+  },
+  {
+    name: "Henza Events",
+    titleSolid: "Henza",
+    titleOutline: "Events",
+    logo: henzaLogo,
+    image: henzaProjectImg,
+    description: "Henza Events is a professional catering and events staffing team based in Kerala. We place skilled hospitality hospitality workers at weddings, corporate events, and private functions all over Kerala.",
+    link: "https://henzaevents.com/"
+  }
+];
 
 export default function WebsitesProjectPage() {
   return (
@@ -32,62 +69,124 @@ export default function WebsitesProjectPage() {
           </Link>
         </motion.div>
 
-        {/* ── Content Grid ── */}
-        <div className="tummy-grid">
-          {/* Left Column: Details */}
-          <div className="tummy-details-col">
-            {/* Logo and Name */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="tummy-brand-header"
-            >
-              <div className="tummy-brand-logo">
-                <Image
-                  src={tummyLogo}
-                  alt="Tummy & Me Logo"
-                  fill
-                  style={{ objectFit: "contain" }}
-                  priority
-                />
-              </div>
-              <h1 className="tummy-brand-title">
-                <span className="brand-title-solid">Tummy</span>{" "}
-                <span className="brand-title-outline">&amp; Me</span>
-              </h1>
-            </motion.div>
-
-            {/* Description Paragraph (Style same as AboutUs details) */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="tummy-description"
-            >
-              Tummy &amp; Me is a Kerala-based fast-food brand known for its signature crispy fried chicken wraps, shawarmas, and loaded snack boxes. Built around the tagline &quot;Eat. Sleep. Repeat.&quot;, the brand focuses on delivering a fun, family-friendly food experience with bold flavors, premium ingredients, fresh bread, and house-made sauces.
-            </motion.p>
-          </div>
-
-          {/* Right Column: Project Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="tummy-image-col"
+        {/* ── Page Header ── */}
+        <div className="tummy-page-header">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="tummy-page-title"
           >
-            <div className="tummy-project-img-wrapper">
-              <Image
-                src={tummyProjectImg}
-                alt="Tummy & Me Project Screen"
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
+            Websites
+          </motion.h1>
+        </div>
+
+        {/* ── Projects List ── */}
+        <div className="tummy-projects-list">
+          {projects.map((project, i) => (
+            <div key={project.name} className="tummy-project-section">
+              <div className="tummy-grid">
+                {/* Left Column: Details */}
+                <div className="tummy-details-col">
+                  {/* Logo and Name */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.6 }}
+                    className="tummy-brand-header"
+                  >
+                    <div className="tummy-brand-logo">
+                      <Image
+                        src={project.logo}
+                        alt={`${project.name} Logo`}
+                        fill
+                        style={{ objectFit: "contain" }}
+                      />
+                    </div>
+                    <h2 className="tummy-brand-title">
+                      <span className="brand-title-solid">{project.titleSolid}</span>{" "}
+                      <span className="brand-title-outline">{project.titleOutline}</span>
+                    </h2>
+                  </motion.div>
+
+                  {/* Description Paragraph (Style same as AboutUs details but off-white) */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.6, delay: 0.15 }}
+                    className="tummy-description"
+                  >
+                    {project.description}
+                  </motion.p>
+
+                  {/* Visit Website Button */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="tummy-visit-btn-wrapper"
+                  >
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="tummy-visit-btn">
+                      VISIT WEBSITE
+                      <div className="tummy-visit-arrow-wrapper">
+                        <Image
+                          src={arrowImg}
+                          alt="Arrow"
+                          width={24}
+                          height={24}
+                          style={{
+                            objectFit: "contain",
+                            mixBlendMode: "screen",
+                            filter: "url(#remove-black)",
+                          }}
+                          className="tummy-visit-arrow"
+                        />
+                      </div>
+                    </a>
+                  </motion.div>
+                </div>
+
+                {/* Right Column: Project Image */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.7, delay: 0.1 }}
+                  className="tummy-image-col"
+                >
+                  <div className="tummy-project-img-wrapper">
+                    <Image
+                      src={project.image}
+                      alt={`${project.name} Project Screen`}
+                      fill
+                      sizes="(max-width: 900px) 100vw, 50vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                </motion.div>
+              </div>
             </div>
-          </motion.div>
+          ))}
         </div>
       </div>
+
+      {/* SVG filter to key out solid black backgrounds from shape images */}
+      <svg width="0" height="0" style={{ position: "absolute", pointerEvents: "none" }}>
+        <defs>
+          <filter id="remove-black" colorInterpolationFilters="sRGB">
+            <feColorMatrix
+              type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      1.5 1.5 1.5 0 -0.05"
+            />
+          </filter>
+        </defs>
+      </svg>
 
       <Footer />
 
@@ -115,6 +214,24 @@ export default function WebsitesProjectPage() {
           /* Mask to fade out grid at the edges */
           mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 90%);
           -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 90%);
+        }
+
+        /* Laser Sweep Line */
+        .tummy-grid-bg::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            transparent,
+            rgba(239, 68, 68, 0.01) 45%,
+            rgba(239, 68, 68, 0.05) 50%,
+            rgba(239, 68, 68, 0.01) 55%,
+            transparent
+          );
+          height: 100%;
+          width: 100%;
+          animation: grid-scan 15s infinite linear;
         }
 
         .tummy-glow-orb-1 {
@@ -150,12 +267,12 @@ export default function WebsitesProjectPage() {
           z-index: 2;
           max-width: 1120px;
           margin: 0 auto;
-          padding: 0 32px 100px;
+          padding: 0 32px 60px;
         }
 
         /* ── Back Link ── */
         .tummy-back-link {
-          margin-bottom: 48px;
+          margin-bottom: 40px;
         }
 
         .tummy-back-link :global(a) {
@@ -183,6 +300,36 @@ export default function WebsitesProjectPage() {
           transform: translateX(-4px);
         }
 
+        /* ── Page Header ── */
+        .tummy-page-header {
+          margin-bottom: 60px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 20px;
+        }
+
+        .tummy-page-title {
+          font-family: 'Orbitron', sans-serif;
+          font-size: clamp(24px, 3.5vw, 42px);
+          font-weight: 800;
+          color: #ffffff;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          margin: 0;
+        }
+
+        /* ── Project Sections ── */
+        .tummy-project-section {
+          padding-bottom: 100px;
+          margin-bottom: 100px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tummy-project-section:last-child {
+          border-bottom: none;
+          padding-bottom: 40px;
+          margin-bottom: 0;
+        }
+
         /* ── Grid Layout ── */
         .tummy-grid {
           display: grid;
@@ -196,7 +343,7 @@ export default function WebsitesProjectPage() {
           display: flex;
           align-items: center;
           gap: 20px;
-          margin-bottom: 32px;
+          margin-bottom: 24px;
         }
 
         .tummy-brand-logo {
@@ -213,7 +360,7 @@ export default function WebsitesProjectPage() {
 
         .brand-title-solid {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(28px, 4vw, 48px);
+          font-size: clamp(24px, 3.5vw, 42px);
           font-weight: 800;
           color: #ffffff;
           text-transform: uppercase;
@@ -222,24 +369,64 @@ export default function WebsitesProjectPage() {
 
         .brand-title-outline {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(28px, 4vw, 48px);
+          font-size: clamp(24px, 3.5vw, 42px);
           font-weight: 800;
-          color: transparent;
-          -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+          color: #ffffff;
+          -webkit-text-stroke: none;
           text-transform: uppercase;
           letter-spacing: -0.01em;
         }
 
-        /* ── Description ── */
+        /* ── Description (Off-white) ── */
         .tummy-description {
           font-family: 'Outfit', sans-serif; /* Style same as AboutUs details */
-          font-size: clamp(14px, 1.3vw, 16.5px);
+          font-size: clamp(14px, 1.2vw, 16px);
           font-weight: 300; /* Thin font weight */
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.6);
+          color: #ffffff; /* White font color */
           margin: 0;
           max-width: 500px;
           letter-spacing: 0.01em;
+        }
+
+        /* ── Visit Website Button ── */
+        .tummy-visit-btn-wrapper {
+          margin-top: 32px;
+          display: inline-block;
+        }
+
+        .tummy-visit-btn {
+          font-family: 'Orbitron', sans-serif;
+          font-size: 13px;
+          font-weight: 700;
+          color: #ffffff;
+          background: transparent;
+          padding: 0;
+          border-radius: 0;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          letter-spacing: 0.12em;
+          box-shadow: none;
+          transition: color 0.3s ease;
+        }
+
+        .tummy-visit-btn:hover {
+          color: #ef4444;
+          background: transparent;
+          box-shadow: none;
+        }
+
+        .tummy-visit-arrow-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 8px;
+          transition: transform 0.3s ease;
+        }
+
+        .tummy-visit-btn:hover .tummy-visit-arrow-wrapper {
+          transform: translateX(6px);
         }
 
         /* ── Image Wrapper ── */
@@ -247,7 +434,7 @@ export default function WebsitesProjectPage() {
           position: relative;
           width: 100%;
           aspect-ratio: 16 / 10;
-          border-radius: 12px;
+          border-radius: 0;
           border: 1px solid rgba(255, 255, 255, 0.08);
           overflow: hidden;
           background: #111;
@@ -267,6 +454,15 @@ export default function WebsitesProjectPage() {
           }
           100% {
             background-position: 60px 60px;
+          }
+        }
+
+        @keyframes grid-scan {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100%);
           }
         }
 
@@ -299,6 +495,10 @@ export default function WebsitesProjectPage() {
           }
           .tummy-description {
             max-width: 100%;
+          }
+          .tummy-project-section {
+            padding-bottom: 60px;
+            margin-bottom: 60px;
           }
         }
 
