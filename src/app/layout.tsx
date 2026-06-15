@@ -43,7 +43,6 @@ export const metadata: Metadata = {
       { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  manifest: "/icons/site.webmanifest",
   openGraph: {
     title: "Exoft Technologies | Premium Software Development Company",
     description:
@@ -111,51 +110,9 @@ export default function RootLayout({
             overflow-x: hidden !important;
             -webkit-text-size-adjust: 100% !important;
           }
-          #html-preloader {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: #000000 !important;
-            z-index: 99999 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow: hidden !important;
-          }
-          #html-preloader img {
-            width: 100px !important;
-            height: auto !important;
-            max-width: 100px !important;
-            max-height: 100px !important;
-            object-fit: contain !important;
-            margin: 0 !important;
-            padding: 0 !important;
-          }
         `}} />
       </head>
       <body>
-        {/* Inline HTML preloader — rendered via dangerouslySetInnerHTML so React
-            doesn't track its children. This lets us safely .remove() it from
-            the Preloader component without causing React DOM reconciliation errors. */}
-        <div
-          id="html-preloader-wrapper"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: `<div id="html-preloader"><img src="/exoft_loading.gif" alt="Loading..." /></div>`,
-          }}
-        />
-        {/* Fallback: remove the preloader immediately if already loaded this session,
-            otherwise after 3s for pages without a Preloader component (e.g. sub-pages on hard refresh).
-            Safe because #html-preloader lives inside dangerouslySetInnerHTML, outside React's virtual DOM. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var r=function(){var e=document.getElementById("html-preloader");if(e)e.remove();};if(sessionStorage.getItem("exoft-loaded")==="1"){r();}else{setTimeout(r,3000);}})();`,
-          }}
-        />
 
         {/* JSON-LD Structured Data for Google Rich Results */}
         <script

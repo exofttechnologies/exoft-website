@@ -13,14 +13,6 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Remove the inline HTML preloader from layout.tsx.
-    // This is safe because it's rendered via dangerouslySetInnerHTML,
-    // so React doesn't track its DOM children.
-    const htmlPreloader = document.getElementById("html-preloader");
-    if (htmlPreloader) {
-      htmlPreloader.remove();
-    }
-
     // If already loaded once this session, skip the animation entirely
     if (sessionStorage.getItem("exoft-loaded") === "1") {
       if (onComplete) onComplete();
