@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackgroundGrid from "@/components/BackgroundGrid";
 
 import elegentLogo from "@/assets/company logos/elegenthospitality.png";
 import elegentProjectImg from "@/assets/project/elegenthospitality_project.png";
@@ -25,7 +26,8 @@ const projects = [
 
 export default function AppsProjectPage() {
   return (
-    <main style={{ position: "relative", background: "#060606", minHeight: "100vh", overflowX: "hidden" }}>
+    <main style={{ position: "relative", background: "#050505", minHeight: "100vh", overflowX: "hidden" }}>
+      <BackgroundGrid />
       <Navbar />
 
       {/* Ambient glow orbs */}
@@ -34,48 +36,6 @@ export default function AppsProjectPage() {
 
       <div className="page-container">
 
-        {/* ── Back Button ── */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: "64px" }}
-        >
-          <Link
-            href="/"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "10px 22px",
-              border: "1px solid rgba(239,68,68,0.35)",
-              borderRadius: "999px",
-              background: "rgba(239,68,68,0.05)",
-              fontFamily: "'Orbitron', sans-serif",
-              fontSize: "10px",
-              fontWeight: 600,
-              color: "#ef4444",
-              letterSpacing: "0.2em",
-              textDecoration: "none",
-              textTransform: "uppercase",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "rgba(239,68,68,0.12)";
-              el.style.borderColor = "rgba(239,68,68,0.6)";
-              el.style.boxShadow = "0 0 20px rgba(239,68,68,0.15)";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "rgba(239,68,68,0.05)";
-              el.style.borderColor = "rgba(239,68,68,0.35)";
-              el.style.boxShadow = "none";
-            }}
-          >
-            <span>←</span> Back to Home
-          </Link>
-        </motion.div>
 
         {/* ── Page Hero ── */}
         <motion.div

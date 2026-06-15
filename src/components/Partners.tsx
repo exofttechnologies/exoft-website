@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -18,13 +18,13 @@ const partners = [
 export default function Partners() {
   return (
     <section id="partners" className="partners-section">
-      {/* ── Background Grid & Glow Animations ── */}
+      {/* Background Grid & Glow */}
       <div className="partners-grid-bg" />
       <div className="partners-glow-orb-1" />
       <div className="partners-glow-orb-2" />
 
       <div className="partners-container">
-        {/* ── Header ── */}
+        {/* Header */}
         <div className="partners-header">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -36,7 +36,7 @@ export default function Partners() {
           </motion.div>
         </div>
 
-        {/* ── Logos Row (Logos Only, Horizontal) ── */}
+        {/* Logos Row */}
         <div className="partners-logos-row">
           {partners.map((partner, i) => (
             <motion.div
@@ -44,11 +44,7 @@ export default function Partners() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{
-                delay: i * 0.1,
-                duration: 0.6,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="partners-logo-item"
             >
               <div
@@ -96,24 +92,19 @@ export default function Partners() {
           overflow: hidden;
           border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        /* ── Background Grid & Glow ── */
         .partners-grid-bg {
           position: absolute;
           inset: 0;
-          background-image: 
+          background-image:
             linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
           background-size: 60px 60px;
           z-index: 1;
           pointer-events: none;
           animation: grid-shift 35s linear infinite;
-          
-          /* Mask to fade out grid at the edges */
           mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
           -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
         }
-
         .partners-glow-orb-1 {
           position: absolute;
           top: 20%;
@@ -126,7 +117,6 @@ export default function Partners() {
           z-index: 0;
           filter: blur(40px);
         }
-
         .partners-glow-orb-2 {
           position: absolute;
           bottom: 10%;
@@ -139,7 +129,6 @@ export default function Partners() {
           z-index: 0;
           filter: blur(40px);
         }
-
         .partners-container {
           position: relative;
           z-index: 2;
@@ -147,13 +136,10 @@ export default function Partners() {
           margin: 0 auto;
           padding: 0 32px;
         }
-
-        /* ── Header ── */
         .partners-header {
           text-align: center;
           margin-bottom: 40px;
         }
-
         .partners-subtitle {
           font-family: 'Orbitron', sans-serif;
           font-size: 11px;
@@ -163,8 +149,6 @@ export default function Partners() {
           text-transform: uppercase;
           margin: 0;
         }
-
-        /* ── Logos Grid ── */
         .partners-logos-row {
           display: flex;
           align-items: center;
@@ -172,13 +156,11 @@ export default function Partners() {
           gap: 64px;
           flex-wrap: wrap;
         }
-
         .partners-logo-item {
           display: flex;
           align-items: center;
           justify-content: center;
         }
-
         .logo-wrapper {
           position: relative;
           display: flex;
@@ -186,33 +168,17 @@ export default function Partners() {
           justify-content: center;
           transition: transform 0.3s ease;
         }
-
         .logo-wrapper:hover {
           transform: scale(1.06);
         }
-
-        /* ── Keyframes ── */
         @keyframes grid-shift {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 60px 60px;
-          }
+          0% { background-position: 0 0; }
+          100% { background-position: 60px 60px; }
         }
-
-        /* ── Responsive ── */
         @media (max-width: 768px) {
-          .partners-section {
-            padding: 60px 0;
-          }
-          .partners-logos-row {
-            gap: 32px 24px;
-          }
-          .logo-wrapper {
-            transform-origin: center;
-            scale: 0.75;
-          }
+          .partners-section { padding: 60px 0; }
+          .partners-logos-row { gap: 32px 24px; }
+          .logo-wrapper { transform-origin: center; scale: 0.75; }
         }
       `}</style>
     </section>

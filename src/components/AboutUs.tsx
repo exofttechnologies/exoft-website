@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 
 export default function AboutUs() {
   return (
     <section id="about" className="about-section">
-      {/* ── Header (like services head) ── */}
+      {/* Header */}
       <div className="about-header">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -13,15 +13,12 @@ export default function AboutUs() {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h2 className="about-heading-text">
-            About Us
-          </h2>
+          <h2 className="about-heading-text">About Us</h2>
         </motion.div>
       </div>
 
-      {/* ── Main Content Area ── */}
+      {/* Main Content Area */}
       <div className="about-main">
-
         {/* Text overlay */}
         <div className="about-content">
           <h2 className="about-heading">
@@ -50,7 +47,7 @@ export default function AboutUs() {
         </div>
       </div>
 
-      {/* ── Bottom Bar ── */}
+      {/* Bottom Bar */}
       <div
         className="about-bottom-bar"
         onClick={() => {
@@ -61,7 +58,6 @@ export default function AboutUs() {
         <span className="about-bottom-arrow">→</span>
       </div>
 
-      {/* ── Styles ── */}
       <style jsx>{`
         .about-section {
           position: relative;
@@ -72,7 +68,6 @@ export default function AboutUs() {
           padding: 80px 0 0px;
         }
 
-        /* ── Header ── */
         .about-header {
           display: flex;
           flex-direction: column;
@@ -93,7 +88,6 @@ export default function AboutUs() {
           text-transform: uppercase;
         }
 
-        /* ── Main Content Area ── */
         .about-main {
           position: relative;
           min-height: 500px;
@@ -103,7 +97,6 @@ export default function AboutUs() {
           flex-direction: column;
           align-items: center;
         }
-
 
         .about-content {
           position: relative;
@@ -155,11 +148,11 @@ export default function AboutUs() {
           line-height: 1.6;
           color: rgba(255, 255, 255, 0.6);
           margin: 0;
-          text-transform: none; /* keep sentence case */
+          text-transform: none;
           text-align: center;
         }
 
-        /* ── Bottom Bar ── */
+        /* Bottom Bar */
         .about-bottom-bar {
           display: flex;
           align-items: center;
@@ -194,13 +187,8 @@ export default function AboutUs() {
           color: #ffffff;
         }
 
-        /* ── Responsive ── */
+        /* Responsive */
         @media (max-width: 1024px) {
-          .about-bg-image {
-            width: 60%;
-            right: -10%;
-            opacity: 0.6;
-          }
           .about-main {
             min-height: 420px;
             padding: 20px 32px 40px;
@@ -211,13 +199,6 @@ export default function AboutUs() {
           .about-main {
             min-height: 380px;
             padding: 20px 24px 32px;
-          }
-          .about-bg-image {
-            width: 70%;
-            right: -15%;
-            top: 10%;
-            height: 90%;
-            opacity: 0.45;
           }
           .about-heading {
             font-size: clamp(14px, 4vw, 20px);
@@ -235,11 +216,6 @@ export default function AboutUs() {
             min-height: 320px;
             padding: 16px 16px 24px;
           }
-          .about-bg-image {
-            width: 80%;
-            right: -20%;
-            opacity: 0.35;
-          }
           .about-heading {
             font-size: clamp(13px, 4.5vw, 17px);
           }
@@ -248,7 +224,6 @@ export default function AboutUs() {
           }
         }
       `}</style>
-
     </section>
   );
 }

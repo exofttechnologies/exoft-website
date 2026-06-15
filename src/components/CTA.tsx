@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 
@@ -15,12 +15,10 @@ export default function CTA() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="relative overflow-hidden rounded-3xl"
         >
-          {/* Background */}
           <div className="absolute inset-0 bg-[#0f172a]" />
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-          {/* Grid pattern */}
           <div
             className="absolute inset-0 opacity-[0.04]"
             style={{
@@ -30,7 +28,6 @@ export default function CTA() {
             }}
           />
 
-          {/* Content */}
           <div className="relative z-10 py-20 px-8 md:px-16 text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}

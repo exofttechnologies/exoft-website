@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -34,7 +34,7 @@ export default function Navbar() {
           borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
         }}
       >
-        {/* Logo — lowercase "exoft" with purple glowing 'o' */}
+        {/* Logo */}
         <a
           href={isHome ? "#" : "/"}
           style={{
@@ -64,7 +64,7 @@ export default function Navbar() {
           <span>t</span>
         </a>
 
-        {/* Desktop nav links with star separators */}
+        {/* Desktop nav links */}
         <div
           style={{
             display: "flex",
@@ -116,7 +116,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Hamburger menu button — circle with purple accent */}
+        {/* Hamburger button */}
         <button
           className="nav-menu-button-mobile"
           onClick={() => setMobileOpen(!mobileOpen)}

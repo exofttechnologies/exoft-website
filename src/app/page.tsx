@@ -9,6 +9,7 @@ import AboutUs from "@/components/AboutUs";
 import Services from "@/components/Services";
 import Partners from "@/components/Partners";
 import Projects from "@/components/Projects";
+
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 
@@ -34,6 +35,7 @@ export default function Home() {
         <Services />
         <Partners />
         <Projects />
+
         <Footer />
       </div>
     </main>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -14,13 +14,11 @@ const projectCategories = [
 export default function Projects() {
   return (
     <section id="projects" className="projects-section">
-      {/* ── Background Grid & Glow Animations ── */}
       <div className="projects-grid-bg" />
       <div className="projects-glow-orb-1" />
       <div className="projects-glow-orb-2" />
 
       <div className="projects-container">
-        {/* ── Header ── */}
         <div className="projects-header">
           <motion.div
             initial={{ opacity: 0, y: 35 }}
@@ -35,7 +33,6 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        {/* ── Projects List ── */}
         <div className="projects-list">
           {projectCategories.map((category, index) => {
             const itemContent = (
@@ -109,7 +106,6 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* SVG filter to key out solid black backgrounds from shape images */}
       <svg width="0" height="0" style={{ position: "absolute", pointerEvents: "none" }}>
         <defs>
           <filter id="remove-black" colorInterpolationFilters="sRGB">
@@ -132,42 +128,28 @@ export default function Projects() {
           overflow: hidden;
           border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        /* ── Background Grid & Glow ── */
         .projects-grid-bg {
           position: absolute;
           inset: 0;
-          background-image: 
+          background-image:
             linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
           background-size: 60px 60px;
           z-index: 1;
           pointer-events: none;
           animation: grid-shift 35s linear infinite;
-          
-          /* Mask to fade out grid at the edges */
           mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
           -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
         }
-
-        /* Laser Sweep Line */
         .projects-grid-bg::before {
           content: "";
           position: absolute;
           inset: 0;
-          background: linear-gradient(
-            to bottom,
-            transparent,
-            rgba(239, 68, 68, 0.01) 45%,
-            rgba(239, 68, 68, 0.05) 50%,
-            rgba(239, 68, 68, 0.01) 55%,
-            transparent
-          );
+          background: linear-gradient(to bottom, transparent, rgba(239, 68, 68, 0.01) 45%, rgba(239, 68, 68, 0.05) 50%, rgba(239, 68, 68, 0.01) 55%, transparent);
           height: 100%;
           width: 100%;
           animation: grid-scan 15s infinite linear;
         }
-
         .projects-glow-orb-1 {
           position: absolute;
           top: 30%;
@@ -181,7 +163,6 @@ export default function Projects() {
           filter: blur(45px);
           animation: float-glow-1 20s infinite ease-in-out;
         }
-
         .projects-glow-orb-2 {
           position: absolute;
           bottom: 20%;
@@ -195,7 +176,6 @@ export default function Projects() {
           filter: blur(45px);
           animation: float-glow-2 18s infinite ease-in-out;
         }
-
         .projects-container {
           position: relative;
           z-index: 2;
@@ -203,14 +183,11 @@ export default function Projects() {
           margin: 0 auto;
           padding: 0 32px;
         }
-
-        /* ── Header ── */
         .projects-header {
           display: flex;
           align-items: flex-start;
           text-align: left;
         }
-
         .projects-heading {
           margin: 0;
           line-height: 1.1;
@@ -218,27 +195,23 @@ export default function Projects() {
           flex-wrap: wrap;
           gap: 16px;
         }
-
         .projects-heading-solid {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(26px, 4.2vw, 50px); /* Decreased font size */
+          font-size: clamp(26px, 4.2vw, 50px);
           font-weight: 900;
           color: #ffffff;
           text-transform: uppercase;
           letter-spacing: -0.01em;
         }
-
         .projects-heading-outline {
           font-family: 'Orbitron', sans-serif;
-          font-size: clamp(26px, 4.2vw, 50px); /* Decreased font size */
+          font-size: clamp(26px, 4.2vw, 50px);
           font-weight: 900;
           color: transparent;
           -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
           text-transform: uppercase;
           letter-spacing: -0.01em;
         }
-
-        /* ── Projects List ── */
         .projects-list {
           margin-top: 56px;
           display: flex;
@@ -247,7 +220,6 @@ export default function Projects() {
           z-index: 2;
           position: relative;
         }
-
         .projects-item {
           display: flex;
           align-items: center;
@@ -258,31 +230,22 @@ export default function Projects() {
           position: relative;
           transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .projects-item:hover {
-          background: rgba(255, 255, 255, 0.015);
-        }
-
+        .projects-item:hover { background: rgba(255, 255, 255, 0.015); }
         .projects-item-content {
           display: flex;
           align-items: baseline;
           gap: 28px;
         }
-
         .projects-item-line {
           flex-grow: 1;
           height: 1px;
-          background: #ef4444; /* Connects text and arrow on hover */
+          background: #ef4444;
           margin: 0 32px;
           transform: scaleX(0);
           transform-origin: left;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .projects-item:hover .projects-item-line {
-          transform: scaleX(1);
-        }
-
+        .projects-item:hover .projects-item-line { transform: scaleX(1); }
         .projects-number {
           font-family: 'Outfit', sans-serif;
           font-size: clamp(14px, 1.5vw, 18px);
@@ -290,26 +253,17 @@ export default function Projects() {
           color: rgba(255, 255, 255, 0.25);
           transition: color 0.4s ease;
         }
-
-        .projects-item:hover .projects-number {
-          color: rgba(255, 255, 255, 0.6);
-        }
-
+        .projects-item:hover .projects-number { color: rgba(255, 255, 255, 0.6); }
         .projects-name {
-          font-family: 'Outfit', sans-serif; /* Clean thin font style */
+          font-family: 'Outfit', sans-serif;
           font-size: clamp(20px, 2.5vw, 32px);
-          font-weight: 300; /* Thin font weight */
+          font-weight: 300;
           color: rgba(255, 255, 255, 0.65);
           text-transform: uppercase;
           transition: color 0.4s ease, letter-spacing 0.4s ease;
           letter-spacing: 0.04em;
         }
-
-        .projects-item:hover .projects-name {
-          color: #ffffff;
-          letter-spacing: 0.08em;
-        }
-
+        .projects-item:hover .projects-name { color: #ffffff; letter-spacing: 0.08em; }
         .projects-arrow-wrapper {
           display: flex;
           align-items: center;
@@ -317,70 +271,33 @@ export default function Projects() {
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
           opacity: 0.5;
         }
-
         .projects-item:hover .projects-arrow-wrapper {
           transform: translateX(6px) rotate(-45deg);
           opacity: 1;
         }
-
-        :global(.projects-arrow-img) {
-          transition: filter 0.4s ease;
-        }
-
-        /* ── Keyframes ── */
+        :global(.projects-arrow-img) { transition: filter 0.4s ease; }
         @keyframes grid-shift {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 60px 60px;
-          }
+          0% { background-position: 0 0; }
+          100% { background-position: 60px 60px; }
         }
-
         @keyframes grid-scan {
-          0% {
-            transform: translateY(-100%);
-          }
-          100% {
-            transform: translateY(100%);
-          }
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
         }
-
         @keyframes float-glow-1 {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          50% {
-            transform: translate(30px, 15px) scale(1.05);
-          }
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(30px, 15px) scale(1.05); }
         }
-
         @keyframes float-glow-2 {
-          0%, 100% {
-            transform: translate(0, 0) scale(1.05);
-          }
-          50% {
-            transform: translate(-20px, -10px) scale(0.98);
-          }
+          0%, 100% { transform: translate(0, 0) scale(1.05); }
+          50% { transform: translate(-20px, -10px) scale(0.98); }
         }
-
-        /* ── Responsive ── */
         @media (max-width: 768px) {
-          .projects-section {
-            padding: 80px 0 80px;
-          }
-          .projects-list {
-            margin-top: 40px;
-          }
-          .projects-item {
-            padding: 28px 8px;
-          }
-          .projects-item-content {
-            gap: 20px;
-          }
-          .projects-item-line {
-            margin: 0 16px;
-          }
+          .projects-section { padding: 80px 0 80px; }
+          .projects-list { margin-top: 40px; }
+          .projects-item { padding: 28px 8px; }
+          .projects-item-content { gap: 20px; }
+          .projects-item-line { margin: 0 16px; }
         }
       `}</style>
     </section>
