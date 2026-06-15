@@ -13,10 +13,19 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Remove the inline HTML preloader from layout.tsx now that React has loaded
-    const htmlPreloader = document.getElementById('html-preloader');
+    // Remove the inline HTML preloader from layout.tsx.
+    // This is safe because it's rendered via dangerouslySetInnerHTML,
+    // so React doesn't track its DOM children.
+    const htmlPreloader = document.getElementById("html-preloader");
     if (htmlPreloader) {
       htmlPreloader.remove();
+    }
+
+    // If already loaded once this session, skip the animation entirely
+    if (sessionStorage.getItem("exoft-loaded") === "1") {
+      if (onComplete) onComplete();
+      setMounted(false);
+      return;
     }
 
     // Disable scroll during preloader
@@ -24,6 +33,7 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        sessionStorage.setItem("exoft-loaded", "1");
         if (onComplete) onComplete();
         // Simple fade out — no scale to avoid zoom flash
         gsap.to(containerRef.current, {

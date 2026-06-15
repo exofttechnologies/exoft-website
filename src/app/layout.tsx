@@ -138,11 +138,24 @@ export default function RootLayout({
         `}} />
       </head>
       <body>
-        {/* Inline HTML preloader — renders in initial HTML before JS loads */}
-        <div id="html-preloader">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/exoft_loading.gif" alt="Loading..." />
-        </div>
+        {/* Inline HTML preloader — rendered via dangerouslySetInnerHTML so React
+            doesn't track its children. This lets us safely .remove() it from
+            the Preloader component without causing React DOM reconciliation errors. */}
+        <div
+          id="html-preloader-wrapper"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `<div id="html-preloader"><img src="/exoft_loading.gif" alt="Loading..." /></div>`,
+          }}
+        />
+        {/* Fallback: remove the preloader immediately if already loaded this session,
+            otherwise after 3s for pages without a Preloader component (e.g. sub-pages on hard refresh).
+            Safe because #html-preloader lives inside dangerouslySetInnerHTML, outside React's virtual DOM. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var r=function(){var e=document.getElementById("html-preloader");if(e)e.remove();};if(sessionStorage.getItem("exoft-loaded")==="1"){r();}else{setTimeout(r,3000);}})();`,
+          }}
+        />
 
         {/* JSON-LD Structured Data for Google Rich Results */}
         <script

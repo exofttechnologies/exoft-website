@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const navLinks = [
   { name: "HOME", href: "#hero" },
@@ -35,8 +36,8 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <a
-          href={isHome ? "#" : "/"}
+        <Link
+          href="/"
           style={{
             display: "flex",
             alignItems: "center",
@@ -62,7 +63,7 @@ export default function Navbar() {
           </span>
           <span>f</span>
           <span>t</span>
-        </a>
+        </Link>
 
         {/* Desktop nav links */}
         <div
@@ -90,7 +91,7 @@ export default function Navbar() {
                   ✦
                 </span>
               )}
-              <a
+              <Link
                 href={isHome ? link.href : `/${link.href}`}
                 style={{
                   color: "rgba(255,255,255,0.75)",
@@ -111,7 +112,7 @@ export default function Navbar() {
                 }}
               >
                 {link.name}
-              </a>
+              </Link>
             </span>
           ))}
         </div>
@@ -195,7 +196,7 @@ export default function Navbar() {
           }}
         >
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={isHome ? link.href : `/${link.href}`}
               onClick={() => setMobileOpen(false)}
@@ -217,7 +218,7 @@ export default function Navbar() {
               }}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </div>
       )}
