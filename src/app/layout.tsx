@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/icons/android-chrome-512x512.png",
+        url: "/icons/og-logo-512x512.png",
         width: 512,
         height: 512,
         alt: "Exoft Technologies Logo",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "Exoft Technologies | Premium Software Development Company",
     description:
       "Exoft Technologies builds high-quality websites, mobile apps, SaaS platforms, and custom software solutions for growing businesses.",
-    images: ["/icons/android-chrome-512x512.png"],
+    images: ["/icons/og-logo-512x512.png"],
   },
   robots: {
     index: true,
@@ -111,6 +111,12 @@ export default function RootLayout({
             -webkit-text-size-adjust: 100% !important;
           }
         `}} />
+        {/* Prevent browser "Install App" prompt — this is not a PWA */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+          });
+        `}} />
       </head>
       <body>
 
@@ -128,7 +134,7 @@ export default function RootLayout({
                   url: "https://exofttechnologies.com",
                   logo: {
                     "@type": "ImageObject",
-                    url: "https://exofttechnologies.com/icons/android-chrome-512x512.png",
+                    url: "https://exofttechnologies.com/icons/og-logo-512x512.png",
                     width: 512,
                     height: 512,
                   },
