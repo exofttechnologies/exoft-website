@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Exofttechnologies | Premium Software Development Company",
+  title: "Exoft technologies | Premium Software Development Company",
   description:
-    "Exofttechnologies builds websites, apps, SaaS platforms and custom software for growing businesses.",
+    "Exoft technologies builds websites, apps, SaaS platforms and custom software for growing businesses.",
   keywords: [
     "software development",
     "web development",
