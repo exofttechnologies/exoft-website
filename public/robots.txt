@@ -1,0 +1,6 @@
+# Robots.txt for Exoft Technologies
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://exofttechnologies.com/sitemap.xml

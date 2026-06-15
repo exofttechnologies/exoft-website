@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import loaderImg from "@/assets/loader.png";
+import loaderImg from "@/assets/exoft_loading.gif";
 
 export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,18 +13,23 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Remove the inline HTML preloader from layout.tsx now that React has loaded
+    const htmlPreloader = document.getElementById('html-preloader');
+    if (htmlPreloader) {
+      htmlPreloader.remove();
+    }
+
     // Disable scroll during preloader
     document.body.style.overflow = "hidden";
 
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
-        // Fade out and scale up the preloader container
+        // Simple fade out — no scale to avoid zoom flash
         gsap.to(containerRef.current, {
           opacity: 0,
-          scale: 1.05,
-          duration: 0.8,
-          ease: "power3.inOut",
+          duration: 0.6,
+          ease: "power2.inOut",
           onComplete: () => {
             document.body.style.overflow = "";
             setMounted(false);
@@ -33,26 +38,13 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
       }
     });
 
-    // 1. Initial State: Loader image hidden
     const loaderEl = loaderRef.current;
-    if (loaderEl) {
-      gsap.set(loaderEl, { scale: 0.8, opacity: 0 });
-    }
 
-    // 2. Loader Image Fade In & Scale Up
-    tl.to(loaderEl, {
-      scale: 1,
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out"
-    });
-
-    // 3. Keep it visible for 1.6s (simulate loading)
+    // Keep GIF visible while loading, then fade out
     tl.to({}, { duration: 1.6 });
 
-    // 4. Shrink loader image slightly before final panel fade
+    // Fade out the loader image cleanly
     tl.to(loaderEl, {
-      scale: 0.9,
       opacity: 0,
       duration: 0.4,
       ease: "power2.inOut"
@@ -67,75 +59,52 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   if (!mounted) return null;
 
   return (
-    <div className="preloader-container" ref={containerRef}>
-      {/* Background Grid Lines (matches hero style) */}
-      <div className="loader-grid">
-        <div className="loader-grid-line" />
-        <div className="loader-grid-line" />
-        <div className="loader-grid-line" />
-      </div>
-
-      <div className="loader-content">
-        {/* Centered spinning image loader */}
-        <div className="loader-image-wrapper" ref={loaderRef}>
+    <div 
+      className="preloader-container" 
+      ref={containerRef}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: '#000000',
+        zIndex: 99999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden'
+      }}
+    >
+      <div 
+        className="loader-content"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 10
+        }}
+      >
+        {/* Centered image loader */}
+        <div 
+          className="loader-image-wrapper" 
+          ref={loaderRef}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <Image
             src={loaderImg}
             alt="Loading..."
-            width={64}
-            height={64}
+            width={100}
+            height={100}
+            unoptimized
             priority
+            style={{ width: "100px", height: "auto" }}
             className="loader-img-asset"
           />
         </div>
       </div>
-
-      <style jsx>{`
-        .preloader-container {
-          position: fixed;
-          inset: 0;
-          background: #050505;
-          z-index: 99999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-        }
-
-        .loader-grid {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          justify-content: space-around;
-          pointer-events: none;
-          opacity: 0.04;
-        }
-
-        .loader-grid-line {
-          width: 1px;
-          height: 100%;
-          background: linear-gradient(to bottom, transparent, #ffffff, transparent);
-        }
-
-        .loader-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          z-index: 10;
-        }
-
-        .loader-image-wrapper {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: spin-loader 1.6s linear infinite;
-        }
-
-        @keyframes spin-loader {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }
